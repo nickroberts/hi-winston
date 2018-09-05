@@ -14,7 +14,7 @@ npm i @nickroberts/hi-winston
 ### HiWinston
 
 ```javascript
-const { HiWinston } = require('hi-winston');
+const { HiWinston } = require('@nickroberts/hi-winston');
 const hiWinston = new HiWinston();
 
 // root logger is required
@@ -39,7 +39,7 @@ ${timestamp} [root] info: ab
 
 ```javascript
 const { transports, format } = require('winston');
-const { LogManager } = require('hi-winston');
+const { LogManager } = require('@nickroberts/hi-winston');
 
 const getSimpleConsoleTransport = label =>
   new transports.Console({

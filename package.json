@@ -14,7 +14,13 @@
     "lib": "lib",
     "test": "test"
   },
+  "engines": {
+    "node": ">=8.5.0"
+  },
   "dependencies": {
+    "winston": "^3.1.0"
+  },
+  "peerDependencies": {
     "winston": "^3.1.0"
   },
   "devDependencies": {
