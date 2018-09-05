@@ -1,8 +1,14 @@
 {
-  "name": "hi-winston",
+  "name": "@nickroberts/hi-winston",
   "version": "0.0.1",
   "description": "Winston hierarchical logger",
   "main": "./lib/index.js",
+  "author": "Nick Roberts <me@nicholasjasy.com>",
+  "keywords": [
+    "winston",
+    "logger",
+    "hierarchical"
+  ],
   "directories": {
     "example": "examples",
     "lib": "lib",
@@ -35,8 +41,7 @@
     "type": "git",
     "url": "git+https://github.com/nickroberts/hi-winston.git"
   },
-  "author": "",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/nickroberts/hi-winston/issues"
   },
