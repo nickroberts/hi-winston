@@ -1,0 +1,30 @@
+# ===[ APP ]=== #
+
+
+
+# ===[ NODEJS ]=== #
+
+/node_modules/
+
+# ===[ OTHER ]=== #
+# IDE Projects
+.idea
+.nbproject
+.project
+nbproject
+project
+*.sublime-project
+
+# Temps
+*~
+*.tmp
+*.bak
+*.swp
+*.kate-swp
+*.lock
+*.DS_Store
+Thumbs.db
+
+coverage
+.nyc_output
+examples/logs

@@ -1,0 +1,41 @@
+{
+  "name": "leo-winston",
+  "description": "Hierarchical winston loggers",
+  "version": "0.0.1",
+  "author": "kolypto <kolypto@gmail.com>",
+  "license": "MIT",
+  "maintainers": [
+    "kolypto <kolypto@gmail.com>"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:kolypto/nodejs-leo-winston.git"
+  },
+  "main": "./lib/index",
+  "keywords": [
+    "application",
+    "logging",
+    "winston"
+  ],
+  "dependencies": {
+    "winston": "3.0.x"
+  },
+  "devDependencies": {
+    "assume": "^2.1.0",
+    "fs-extra": "^7.0.0",
+    "mocha": "^5.2.0",
+    "nyc": "^13.0.1",
+    "std-mocks": "^1.0.1"
+  },
+  "engines": {
+    "node": ">= 8.0.0"
+  },
+  "scripts": {
+    "examples-default": "node examples/default.js",
+    "examples-non-propagated": "node examples/non-propagated.js",
+    "examples-file": "node examples/file.js",
+    "test": "nyc --reporter=text --reporter lcov --reporter html npm run test:mocha",
+    "tdd": "nyc --reporter=text --reporter lcov --reporter html npm run test:mocha -- --watch",
+    "test:mocha": "mocha test/*.test.js test/**/*.test.js"
+  }
+}
