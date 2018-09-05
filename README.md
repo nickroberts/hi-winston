@@ -1,7 +1,9 @@
 # hi-winston
 
+[![npm version](https://img.shields.io/npm/v/@nickroberts/hi-winston.svg)](https://www.npmjs.com/package/@nickroberts/hi-winston)
 [![Build Status](https://travis-ci.com/nickroberts/hi-winston.svg?branch=master)](https://travis-ci.com/nickroberts/hi-winston)
 [![Code Coverage](https://codecov.io/gh/nickroberts/hi-winston/branch/master/graph/badge.svg)](https://codecov.io/gh/nickroberts/hi-winston)
+[![GitHub license](https://img.shields.io/github/license/nickroberts/hi-winston.svg)](https://github.com/nickroberts/hi-winston/blob/master/LICENSE)
 
 ## Installation
 
