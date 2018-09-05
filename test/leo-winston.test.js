@@ -5,7 +5,7 @@ const { format, transports } = winston;
 const { Console } = transports;
 const { combine, label, printf } = format;
 const stdMocks = require('std-mocks');
-const { LeoWinston } = require('../lib');
+const { HiWinston } = require('../lib');
 
 // Need to increase the max number of listeners because of the propagation
 require('events').EventEmitter.defaultMaxListeners = 15;
@@ -32,31 +32,31 @@ const getLoggerOptions = name => {
   };
 };
 
-let leoWinston;
+let hiWinston;
 
-describe('LeoWinston', () => {
+describe('HiWinston', () => {
   describe('with the default options', () => {
     before(() => {
-      leoWinston = new LeoWinston();
+      hiWinston = new HiWinston();
     });
     after(() => {
-      leoWinston = null;
+      hiWinston = null;
     });
     describe('when there is no root logger', () => {
       it('should throw an error', () => {
         assume(() => {
-          leoWinston.get('root');
+          hiWinston.get('root');
         }).throws('Root logger is not initialized');
       });
     });
     describe('when there is a root logger', () => {
       beforeEach(() => {
-        leoWinston.add('root');
+        hiWinston.add('root');
       });
       describe('when logging with the root logger', () => {
         it('should log to its transport', () => {
           stdMocks.use();
-          leoWinston.get('root').info('root');
+          hiWinston.get('root').info('root');
           stdMocks.restore();
           const output = stdMocks.flush();
           assume(output.stderr).is.an('array');
@@ -72,13 +72,13 @@ describe('LeoWinston', () => {
         const loggerName = 'unknown';
         it('should not throw an error', () => {
           assume(() => {
-            leoWinston.get(loggerName);
+            hiWinston.get(loggerName);
           }).is.ok();
         });
         describe(`when logging to the unknown`, () => {
           it(`it should not log to the console`, () => {
             stdMocks.use();
-            leoWinston.get(loggerName).info(loggerName);
+            hiWinston.get(loggerName).info(loggerName);
             stdMocks.restore();
             const output = stdMocks.flush();
             assume(output.stderr).is.an('array');
@@ -92,9 +92,9 @@ describe('LeoWinston', () => {
         propagatedLoggers.forEach((logger, idx) => {
           describe(`when using the ${logger} logger`, () => {
             it(`it should log to its transport`, () => {
-              leoWinston.add(logger, getLoggerOptions(logger));
+              hiWinston.add(logger, getLoggerOptions(logger));
               stdMocks.use();
-              leoWinston.get(logger).info(logger);
+              hiWinston.get(logger).info(logger);
               stdMocks.restore();
               const output = stdMocks.flush();
               assume(output.stderr).is.an('array');
@@ -117,12 +117,12 @@ describe('LeoWinston', () => {
       describe('when adding a non propagated logger', () => {
         it(`it should log to only its transport`, () => {
           const logger = 'a.b.c.d';
-          leoWinston.add(logger, {
+          hiWinston.add(logger, {
             ...getLoggerOptions(logger),
             propagate: false
           });
           stdMocks.use();
-          leoWinston.get(logger).info(logger);
+          hiWinston.get(logger).info(logger);
           stdMocks.restore();
           const output = stdMocks.flush();
           assume(output.stderr).is.an('array');
@@ -134,9 +134,9 @@ describe('LeoWinston', () => {
         describe('when adding a propagated logger', () => {
           it(`it should log only to its transport and its parent`, () => {
             const propagatedLogger = 'a.b.c.d.e';
-            leoWinston.add(propagatedLogger, getLoggerOptions(propagatedLogger));
+            hiWinston.add(propagatedLogger, getLoggerOptions(propagatedLogger));
             stdMocks.use();
-            leoWinston.get(propagatedLogger).info(propagatedLogger);
+            hiWinston.get(propagatedLogger).info(propagatedLogger);
             stdMocks.restore();
             const output = stdMocks.flush();
             assume(output.stderr).is.an('array');
@@ -151,7 +151,7 @@ describe('LeoWinston', () => {
       describe('when adding non-propagated loggers', () => {
         beforeEach(() => {
           nonPropagatedLoggers.forEach(logger =>
-            leoWinston.add(logger, {
+            hiWinston.add(logger, {
               ...getLoggerOptions(logger),
               propagate: false
             })
@@ -161,7 +161,7 @@ describe('LeoWinston', () => {
           describe(`when using the ${logger} logger`, () => {
             it(`it should log to its transport`, () => {
               stdMocks.use();
-              leoWinston.get(logger).info(logger);
+              hiWinston.get(logger).info(logger);
               stdMocks.restore();
               const output = stdMocks.flush();
               assume(output.stderr).is.an('array');
@@ -179,19 +179,19 @@ describe('LeoWinston', () => {
 
   describe('when options.propagate is false', () => {
     before(() => {
-      leoWinston = new LeoWinston({ propagate: false });
-      leoWinston.add('root', getLoggerOptions('root'));
-      propagatedLoggers.forEach(logger => leoWinston.add(logger, getLoggerOptions(logger)));
+      hiWinston = new HiWinston({ propagate: false });
+      hiWinston.add('root', getLoggerOptions('root'));
+      propagatedLoggers.forEach(logger => hiWinston.add(logger, getLoggerOptions(logger)));
     });
     after(() => {
-      leoWinston = null;
+      hiWinston = null;
     });
     describe('when adding loggers', () => {
       propagatedLoggers.forEach(logger => {
         describe(`when using the ${logger} logger`, () => {
           it(`it should log to its transport`, () => {
             stdMocks.use();
-            leoWinston.get(logger).info(logger);
+            hiWinston.get(logger).info(logger);
             stdMocks.restore();
             const output = stdMocks.flush();
             assume(output.stderr).is.an('array');

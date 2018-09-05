@@ -1,6 +1,6 @@
-const { LeoWinston } = require('../lib');
+const { HiWinston } = require('../lib');
 
-const leoWinston = new LeoWinston();
+const hiWinston = new HiWinston();
 
 const loggers = [
   { name: 'root', level: 'error' },
@@ -13,10 +13,10 @@ const loggers = [
 ];
 
 // Add each logger configuration to the logger with the default options
-loggers.forEach(logger => leoWinston.add(logger.name, { level: logger.level }));
+loggers.forEach(logger => hiWinston.add(logger.name, { level: logger.level }));
 
 // Log using each logger, which will propagate up
-loggers.forEach(logger => leoWinston.get(logger.name).log(logger.level, `Testing ${logger.name} logger`));
+loggers.forEach(logger => hiWinston.get(logger.name).log(logger.level, `Testing ${logger.name} logger`));
 
 /* console output
 ${timestamp} [root] error: Testing root logger

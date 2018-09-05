@@ -1,7 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const { transports, format } = require('winston');
-const { LeoWinston } = require('../lib');
+const { HiWinston } = require('../lib');
 
 const logDirectory = path.join(__dirname, 'logs');
 const errorFilename = path.join(logDirectory, 'error.log');
@@ -9,7 +9,7 @@ const infoFilename = path.join(logDirectory, 'info.log');
 
 fs.emptyDirSync(logDirectory);
 
-const leoWinston = new LeoWinston();
+const hiWinston = new HiWinston();
 
 // Function to filter out properties to display data in the console
 const filteredData = raw =>
@@ -65,11 +65,11 @@ const loggers = [
 ];
 
 // Add each logger configuration to the logger with the default options
-loggers.forEach(logger => leoWinston.add(logger.name, logger.options));
+loggers.forEach(logger => hiWinston.add(logger.name, logger.options));
 
-leoWinston.get('a').silly(`Testing silly logger with data`, { foo: 'silly' });
-leoWinston.get('a').info(`Testing info logger with data`, { foo: 'info' });
-leoWinston.get('a').error(`Testing error logger with data`, { foo: 'error' });
+hiWinston.get('a').silly(`Testing silly logger with data`, { foo: 'silly' });
+hiWinston.get('a').info(`Testing info logger with data`, { foo: 'info' });
+hiWinston.get('a').error(`Testing error logger with data`, { foo: 'error' });
 
 /* Console output
 ${timestamp} [a] silly: Testing silly logger with data > {"foo":"silly"}
