@@ -1,34 +1,22 @@
 {
-  "name": "leo-winston",
-  "description": "Hierarchical winston loggers",
-  "version": "0.0.1",
-  "author": "kolypto <kolypto@gmail.com>",
-  "license": "MIT",
-  "maintainers": [
-    "kolypto <kolypto@gmail.com>"
-  ],
-  "repository": {
-    "type": "git",
-    "url": "git@github.com:kolypto/nodejs-leo-winston.git"
+  "name": "hi-winston",
+  "version": "1.0.0",
+  "description": "Winston hierarchical logger",
+  "main": "./lib/index.js",
+  "directories": {
+    "example": "examples",
+    "lib": "lib",
+    "test": "test"
   },
-  "main": "./lib/index",
-  "keywords": [
-    "application",
-    "logging",
-    "winston"
-  ],
   "dependencies": {
-    "winston": "3.0.x"
-  },
-  "devDependencies": {
     "assume": "^2.1.0",
+    "codecov": "^3.1.0",
     "fs-extra": "^7.0.0",
-    "mocha": "^5.2.0",
     "nyc": "^13.0.1",
     "std-mocks": "^1.0.1"
   },
-  "engines": {
-    "node": ">= 8.0.0"
+  "devDependencies": {
+    "mocha": "^5.2.0"
   },
   "scripts": {
     "examples-default": "node examples/default.js",
@@ -37,5 +25,15 @@
     "test": "nyc --reporter=text --reporter lcov --reporter html npm run test:mocha",
     "tdd": "nyc --reporter=text --reporter lcov --reporter html npm run test:mocha -- --watch",
     "test:mocha": "mocha test/*.test.js test/**/*.test.js"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nickroberts/hi-winston.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nickroberts/hi-winston/issues"
+  },
+  "homepage": "https://github.com/nickroberts/hi-winston#readme"
 }
