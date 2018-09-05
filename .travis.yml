@@ -7,5 +7,6 @@ cache:
 before_script:
   - npm install -g codecov
 script:
+  - npm run lint
   - npm test
   - codecov

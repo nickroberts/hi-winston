@@ -1,7 +1,7 @@
 const assume = require('assume');
+const { describe, it, before, after, beforeEach } = require('mocha');
 const winston = require('winston');
-const { format } = winston;
-const { transports } = winston;
+const { format, transports } = winston;
 const { Console } = transports;
 const { combine, label, printf } = format;
 const stdMocks = require('std-mocks');
