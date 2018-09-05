@@ -76,7 +76,7 @@ describe('HiWinston', () => {
           }).is.ok();
         });
         describe(`when logging to the unknown`, () => {
-          it(`it should not log to the console`, () => {
+          it(`it should not log, but propagate up`, () => {
             stdMocks.use();
             hiWinston.get(loggerName).info(loggerName);
             stdMocks.restore();
@@ -84,7 +84,10 @@ describe('HiWinston', () => {
             assume(output.stderr).is.an('array');
             assume(output.stderr).length(0);
             assume(output.stdout).is.an('array');
-            assume(output.stdout).length(0);
+            assume(output.stdout).length(1);
+            // Using includes for the root logger, as we can't reliably check the timestamp and colorized input,
+            // which default format function uses
+            assume(output.stdout[0]).contains('[root]');
           });
         });
       });

@@ -1,30 +1,23 @@
 const fs = require('fs-extra');
 const path = require('path');
-const { transports, format } = require('winston');
+const { getDefaultConsoleTransport, getDefaultFileTransport } = require('../util');
+const { format } = require('winston');
 const { HiWinston } = require('../lib');
 
 const logDirectory = path.join(__dirname, 'logs');
 const errorFilename = path.join(logDirectory, 'error.log');
 const infoFilename = path.join(logDirectory, 'info.log');
 
-fs.emptyDirSync(logDirectory);
+fs.ensureDirSync(logDirectory);
+// unlink the files
+try {
+  fs.unlinkSync(errorFilename);
+  fs.unlinkSync(infoFilename);
+} catch (e) {
+  // ignore errors
+}
 
 const hiWinston = new HiWinston();
-
-// Function to filter out properties to display data in the console
-const filteredData = raw =>
-  Object.keys(raw)
-    .filter(key => !['timestamp', 'label', 'level', 'message'].includes(key))
-    .reduce((obj, key) => {
-      return {
-        ...obj,
-        [key]: raw[key]
-      };
-    }, {});
-
-const myFormat = format.printf(info => {
-  return `${info.timestamp} [${info.label}] ${info.level}: ${info.message} > ${JSON.stringify(filteredData(info))}`;
-});
 
 const loggers = [
   {
@@ -33,17 +26,11 @@ const loggers = [
       level: 'silly',
       transports: [
         // Log up to silly (everything) in the console
-        new transports.Console({
-          format: format.combine(format.colorize(), format.label({ label: 'root' }), format.timestamp(), myFormat)
-        }),
+        getDefaultConsoleTransport('root'),
         // Log up to info in the info file
-        new transports.File({
-          level: 'info',
-          filename: infoFilename,
-          format: format.combine(format.label({ label: 'root' }), format.timestamp(), myFormat)
-        }),
+        getDefaultFileTransport('root', { filename: infoFilename }),
         // Log up to error in the error file
-        new transports.File({
+        getDefaultFileTransport('root', {
           level: 'error',
           filename: errorFilename,
           format: format.combine(format.label({ label: 'root' }), format.timestamp(), format.json())
@@ -55,11 +42,7 @@ const loggers = [
     name: 'a',
     options: {
       level: 'silly',
-      transports: [
-        new transports.Console({
-          format: format.combine(format.colorize(), format.label({ label: 'a' }), format.timestamp(), myFormat)
-        })
-      ]
+      transports: [getDefaultConsoleTransport('a')]
     }
   }
 ];

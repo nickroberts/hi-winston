@@ -1,6 +1,6 @@
 {
   "name": "hi-winston",
-  "version": "1.0.0",
+  "version": "0.0.1",
   "description": "Winston hierarchical logger",
   "main": "./lib/index.js",
   "directories": {
@@ -21,10 +21,12 @@
     "std-mocks": "^1.0.1"
   },
   "scripts": {
+    "examples": "npm run examples-default && npm run examples-non-propagated && npm run examples-file && npm run examples-log-manager",
     "examples-default": "node examples/default.js",
     "examples-non-propagated": "node examples/non-propagated.js",
     "examples-file": "node examples/file.js",
-    "lint": "eslint lib test examples",
+    "examples-log-manager": "node examples/log-manager.js",
+    "lint": "eslint lib test examples util",
     "test": "nyc --reporter=text --reporter lcov --reporter html npm run test:mocha",
     "tdd": "nyc --reporter=text --reporter lcov --reporter html npm run test:mocha -- --watch",
     "test:mocha": "mocha test/*.test.js test/**/*.test.js"
@@ -38,5 +40,10 @@
   "bugs": {
     "url": "https://github.com/nickroberts/hi-winston/issues"
   },
-  "homepage": "https://github.com/nickroberts/hi-winston#readme"
+  "homepage": "https://github.com/nickroberts/hi-winston#readme",
+  "nyc": {
+    "include": [
+      "lib/**"
+    ]
+  }
 }
