@@ -58,10 +58,17 @@ const config = {
   },
   loggers: {
     a: {
-      transportNames: ['t1']
+      transports: [{ name: 't1' }]
     },
     'a.b': {
-      transportNames: ['t1', 't2']
+      transports: [
+        { name: 't1' },
+        {
+          name: 't2',
+          // You can add a custom format function to the transport
+          format: format.combine(format.simple())
+        }
+      ]
     }
   }
 };
@@ -78,7 +85,7 @@ ab.info('a.b info');
 /* console output:
 [t1] info: a info
 [t1] info: a.b info
-[t2] info: a.b info
+info: a.b info
 [t1] info: a.b info
 */
 ```

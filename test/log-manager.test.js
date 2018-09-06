@@ -3,6 +3,7 @@ const { describe, it, before } = require('mocha');
 const stdMocks = require('std-mocks');
 const { LogManager } = require('../lib');
 const { getSimpleConsoleTransport } = require('../util');
+const { combine, simple } = require('winston').format;
 
 describe('LogManager', () => {
   let logManager;
@@ -30,10 +31,10 @@ describe('LogManager', () => {
           },
           loggers: {
             logger1: {
-              transportNames: ['transport1']
+              transports: [{ name: 'transport1' }]
             },
             logger2: {
-              transportNames: ['transport1', 'transport2']
+              transports: [{ name: 'transport1' }, { name: 'transport2' }]
             }
           }
         });
@@ -75,10 +76,15 @@ describe('LogManager', () => {
           },
           loggers: {
             root: {
-              transportNames: ['root']
+              transports: [{ name: 'root' }]
             },
             logger1: {
-              transportNames: ['transport1']
+              transports: [
+                {
+                  name: 'transport1',
+                  format: combine(simple())
+                }
+              ]
             }
           }
         });
@@ -106,7 +112,7 @@ describe('LogManager', () => {
           assume(output.stderr).length(0);
           assume(output.stdout).is.an('array');
           assume(output.stdout).length(2);
-          assume(output.stdout[0]).equals('[transport1] info: logger1\n');
+          assume(output.stdout[0]).equals('info: logger1\n');
           assume(output.stdout[1]).equals('[root] info: logger1\n');
         });
       });
