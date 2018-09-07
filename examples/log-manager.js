@@ -22,12 +22,15 @@ const config = {
   },
   loggers: {
     logger1: {
+      level: 'silly',
       transportNames: ['transport1']
     },
     logger2: {
+      level: 'silly',
       transportNames: ['transport1', 'transport2']
     },
     'logger2.logger3': {
+      // level: 'silly',
       transportNames: ['transport3']
     }
   }
@@ -44,8 +47,11 @@ const logger4 = logManager.get('logger2.logger3.logger4');
 const logger5 = logManager2.get('logger2.logger3.logger4');
 
 logger1.info('logger1 info');
+logger1.silly('logger1 silly');
 logger2.info('logger2 info with data', { foo: 'bar' });
 logger3.info('logger3 info');
+// this will not get logged to the transpor3, as its level is only info
+logger3.silly('logger3 silly');
 // logger4 is not initially defined, so it will silently log, then propagate up
 logger4.info('logger4 info');
 // logger5 is not initially defined and uses logManager2, which does not propagate, so it will not log anything
