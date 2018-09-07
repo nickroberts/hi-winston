@@ -1,8 +1,7 @@
 const fs = require('fs-extra');
 const path = require('path');
 const { LogManager } = require('../lib');
-const { getDefaultConsoleTransport, getDefaultFileTransport, myFormat } = require('../util');
-const { format } = require('winston');
+const { getDefaultConsoleTransport, getDefaultFileTransport } = require('../util');
 
 const logDirectory = path.join(__dirname, 'logs');
 const transport2Filename = path.join(logDirectory, 'transport2.log');
@@ -23,24 +22,13 @@ const config = {
   },
   loggers: {
     logger1: {
-      transports: [{ name: 'transport1' }]
+      transportNames: ['transport1']
     },
     logger2: {
-      transports: [{ name: 'transport1' }, { name: 'transport2' }]
+      transportNames: ['transport1', 'transport2']
     },
     'logger2.logger3': {
-      transports: [
-        {
-          name: 'transport3',
-          format: format.combine(
-            format.timestamp(),
-            format.colorize(),
-            format.label({ label: 'logger2.logger3' }),
-            format.metadata({ fillExcept: ['message', 'level', 'timestamp', 'label'] }),
-            myFormat
-          )
-        }
-      ]
+      transportNames: ['transport3']
     }
   }
 };
@@ -66,9 +54,9 @@ logger5.info('logger5 info');
 /* console output
 ${timestamp} [transport1] info: logger1 info
 ${timestamp} [transport1] info: logger2 info with data > {"foo":"bar"}
-${timestamp} [logger2.logger3] info: logger3 info > {"metadata":{}}
+${timestamp} [transport3] info: logger3 info
 ${timestamp} [transport1] info: logger3 info
-${timestamp} [logger2.logger3] info: logger4 info > {"metadata":{}}
+${timestamp} [transport3] info: logger4 info
 ${timestamp} [transport1] info: logger4 info
 */
 

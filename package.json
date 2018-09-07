@@ -1,6 +1,6 @@
 {
   "name": "@nickroberts/hi-winston",
-  "version": "1.0.0-beta.2",
+  "version": "1.0.0",
   "description": "Winston hierarchical logger",
   "main": "./lib/index.js",
   "author": "Nick Roberts <me@nicholasjasy.com>",

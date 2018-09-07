@@ -3,7 +3,6 @@ const { describe, it, before } = require('mocha');
 const stdMocks = require('std-mocks');
 const { LogManager } = require('../lib');
 const { getSimpleConsoleTransport } = require('../util');
-const { combine, simple } = require('winston').format;
 
 describe('LogManager', () => {
   let logManager;
@@ -31,10 +30,10 @@ describe('LogManager', () => {
           },
           loggers: {
             logger1: {
-              transports: [{ name: 'transport1' }]
+              transportNames: ['transport1']
             },
             logger2: {
-              transports: [{ name: 'transport1' }, { name: 'transport2' }]
+              transportNames: ['transport1', 'transport2']
             }
           }
         });
@@ -72,19 +71,15 @@ describe('LogManager', () => {
         logManager = new LogManager({
           transports: {
             root: getSimpleConsoleTransport('root'),
-            transport1: getSimpleConsoleTransport('transport1')
+            transport1: getSimpleConsoleTransport('transport1'),
+            transport2: getSimpleConsoleTransport('transport2')
           },
           loggers: {
             root: {
-              transports: [{ name: 'root' }]
+              transportNames: ['root']
             },
             logger1: {
-              transports: [
-                {
-                  name: 'transport1',
-                  format: combine(simple())
-                }
-              ]
+              transportNames: ['transport1', 'transport2']
             }
           }
         });
@@ -103,7 +98,7 @@ describe('LogManager', () => {
         });
       });
       describe('when logging to the logger1 logger', () => {
-        it('should write to its transport', () => {
+        it('should write to its transports', () => {
           stdMocks.use();
           logManager.get('logger1').info('logger1');
           stdMocks.restore();
@@ -111,9 +106,10 @@ describe('LogManager', () => {
           assume(output.stderr).is.an('array');
           assume(output.stderr).length(0);
           assume(output.stdout).is.an('array');
-          assume(output.stdout).length(2);
-          assume(output.stdout[0]).equals('info: logger1\n');
-          assume(output.stdout[1]).equals('[root] info: logger1\n');
+          assume(output.stdout).length(3);
+          assume(output.stdout[0]).equals('[transport1] info: logger1\n');
+          assume(output.stdout[1]).equals('[transport2] info: logger1\n');
+          assume(output.stdout[2]).equals('[root] info: logger1\n');
         });
       });
     });

@@ -58,17 +58,10 @@ const config = {
   },
   loggers: {
     a: {
-      transports: [{ name: 't1' }]
+      transportNames: ['t1']
     },
     'a.b': {
-      transports: [
-        { name: 't1' },
-        {
-          name: 't2',
-          // You can add a custom format function to the transport
-          format: format.combine(format.simple())
-        }
-      ]
+      transportNames: ['t1', 't2']
     }
   }
 };
@@ -78,14 +71,19 @@ const logManager = new LogManager(config);
 
 const a = logManager.get('a');
 const ab = logManager.get('a.b');
+const abc = logManager.get('a.b.c');
 
 a.info('a info');
 ab.info('a.b info');
+abc.info('a.b.c info');
 
 /* console output:
 [t1] info: a info
 [t1] info: a.b info
-info: a.b info
+[t2] info: a.b info
 [t1] info: a.b info
+[t1] info: a.b.c info
+[t2] info: a.b.c info
+[t1] info: a.b.c info
 */
 ```
